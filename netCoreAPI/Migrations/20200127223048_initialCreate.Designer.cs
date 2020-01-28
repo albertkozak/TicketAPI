@@ -9,8 +9,8 @@ using netCoreAPI.Services;
 namespace netCoreAPI.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20200118195509_addedCreatedOn")]
-    partial class addedCreatedOn
+    [Migration("20200127223048_initialCreate")]
+    partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,7 +44,7 @@ namespace netCoreAPI.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2020, 1, 18, 11, 55, 9, 396, DateTimeKind.Local).AddTicks(5412),
+                            CreatedOn = new DateTime(2020, 1, 27, 14, 30, 48, 109, DateTimeKind.Local).AddTicks(6554),
                             Description = "Clean house",
                             IsComplete = false,
                             Priority = 1
@@ -52,7 +52,7 @@ namespace netCoreAPI.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2020, 1, 18, 11, 55, 9, 403, DateTimeKind.Local).AddTicks(7373),
+                            CreatedOn = new DateTime(2020, 1, 27, 14, 30, 48, 113, DateTimeKind.Local).AddTicks(568),
                             Description = "Bake cake",
                             IsComplete = false,
                             Priority = 3
