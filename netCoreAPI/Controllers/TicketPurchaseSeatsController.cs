@@ -9,7 +9,8 @@ using netCoreAPI.Models.TicketAPI;
 
 namespace netCoreAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [Route("api/[controller]/action")]
     [ApiController]
     public class TicketPurchaseSeatsController : ControllerBase
     {
