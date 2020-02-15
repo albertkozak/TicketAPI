@@ -10,7 +10,9 @@ using netCoreAPI.Models.TicketAPI;
 namespace netCoreAPI.Controllers
 {
     [Produces("application/json")]
-    [Route("api/[controller]/action")]
+
+    [Route("api/[controller]")]
+
     [ApiController]
     public class EventsController : ControllerBase
     {
@@ -21,14 +23,44 @@ namespace netCoreAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Events
+        /// <summary>
+        /// Gets all Events.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   GET /events
+        ///   {
+        ///    "eventID": "1",
+        ///    "eventName": "Defcon 2020",
+        ///    "venueName": "Kore Stadium"
+        ///   }
+        /// </remarks> 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Event>>> GetEvent()
         {
             return await _context.Event.ToListAsync();
         }
 
-        // GET: api/Events/5
+        /// <summary>
+        /// Gets specific Event.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   GET /events/{id}
+        ///   {
+        ///    "eventID": "1",
+        ///    "eventName": "Defcon 2020",
+        ///    "venueName": "Kore Stadium"
+        ///   }
+        /// </remarks> 
+        /// <param name="id"></param>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("{id}")]
         public async Task<ActionResult<Event>> GetEvent(int id)
         {
@@ -42,9 +74,23 @@ namespace netCoreAPI.Controllers
             return @event;
         }
 
-        // PUT: api/Events/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// Updates specific Event.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   PUT /events/{id}
+        ///   {
+        ///    "eventID": "1",
+        ///    "eventName": "Defcon 2020: Vancouver",
+        ///    "venueName": "Kore Stadium"
+        ///   }
+        /// </remarks> 
+        /// <param name="id"></param>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEvent(int id, Event @event)
         {
@@ -74,9 +120,21 @@ namespace netCoreAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Events
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// Creates an Event.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   POST /events
+        ///   {
+        ///    "eventID": "1",
+        ///    "eventName": "Defcon 2020: Vancouver",
+        ///    "venueName": "Kore Stadium"
+        ///   }
+        /// </remarks> 
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<ActionResult<Event>> PostEvent(Event @event)
         {
@@ -86,7 +144,13 @@ namespace netCoreAPI.Controllers
             return CreatedAtAction("GetEvent", new { id = @event.EventId }, @event);
         }
 
-        // DELETE: api/Events/5
+        /// <summary>
+        /// Deletes a specific Event.
+        /// </summary>
+        /// <param name="id"></param>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Event>> DeleteEvent(int id)
         {

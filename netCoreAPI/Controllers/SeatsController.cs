@@ -10,7 +10,8 @@ using netCoreAPI.Models.TicketAPI;
 namespace netCoreAPI.Controllers
 {
     [Produces("application/json")]
-    [Route("api/[controller]/action")]
+    [Route("api/[controller]")]
+
     [ApiController]
     public class SeatsController : ControllerBase
     {
@@ -21,14 +22,43 @@ namespace netCoreAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Seats
+        /// <summary>
+        /// Gets all Seats.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   GET /seats
+        ///   {
+        ///    "seatId": 1,
+        ///    "price": 100.00,
+        ///    "rowId": 1,
+        ///   }
+        /// </remarks> 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Seat>>> GetSeat()
         {
             return await _context.Seat.ToListAsync();
         }
-
-        // GET: api/Seats/5
+        /// <summary>
+        /// Gets specific Seat.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   GET /seats/{id}
+        ///   {
+        ///    "seatId": 1,
+        ///    "price": 100.00,
+        ///    "rowId": 1,
+        ///   }
+        /// </remarks> 
+        /// <param name="id"></param>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("{id}")]
         public async Task<ActionResult<Seat>> GetSeat(int id)
         {
@@ -42,9 +72,23 @@ namespace netCoreAPI.Controllers
             return seat;
         }
 
-        // PUT: api/Seats/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// Updates specific Seat.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   PUT /seats/{id}
+        ///   {
+        ///    "seatId": 1,
+        ///    "price": 120.00,
+        ///    "rowId": 1,
+        ///   }
+        /// </remarks> 
+        /// <param name="id"></param>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSeat(int id, Seat seat)
         {
@@ -74,9 +118,21 @@ namespace netCoreAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Seats
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// Creates a Seat.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   POST /seats
+        ///   {
+        ///    "seatId": 1,
+        ///    "price": 120.00,
+        ///    "rowId": 1,
+        ///   }
+        /// </remarks> 
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<ActionResult<Seat>> PostSeat(Seat seat)
         {
@@ -86,7 +142,13 @@ namespace netCoreAPI.Controllers
             return CreatedAtAction("GetSeat", new { id = seat.SeatId }, seat);
         }
 
-        // DELETE: api/Seats/5
+        /// <summary>
+        /// Deletes a specific Seat.
+        /// </summary>
+        /// <param name="id"></param>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Seat>> DeleteSeat(int id)
         {

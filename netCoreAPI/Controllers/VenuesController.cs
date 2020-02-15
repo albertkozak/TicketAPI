@@ -10,7 +10,9 @@ using netCoreAPI.Models.TicketAPI;
 namespace netCoreAPI.Controllers
 {
     [Produces("application/json")]
-    [Route("api/[controller]/action")]
+
+    [Route("api/[controller]")]
+
     [ApiController]
     public class VenuesController : ControllerBase
     {
@@ -21,14 +23,42 @@ namespace netCoreAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Venues
+        /// <summary>
+        /// Gets all Venues.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   GET /venues
+        ///   {
+        ///    "venueName": "Kore Stadium",
+        ///    "capacity": 100,
+        ///   }
+        /// </remarks> 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Venue>>> GetVenue()
         {
             return await _context.Venue.ToListAsync();
         }
 
-        // GET: api/Venues/5
+        /// <summary>
+        /// Gets specific Venue.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   GET /venues/{id}
+        ///   {
+        ///    "venueName": "Kore Stadium",
+        ///    "capacity": 100,
+        ///   }
+        /// </remarks> 
+        /// <param name="id"></param>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("{id}")]
         public async Task<ActionResult<Venue>> GetVenue(string id)
         {
@@ -42,9 +72,22 @@ namespace netCoreAPI.Controllers
             return venue;
         }
 
-        // PUT: api/Venues/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// Updates specific Venue.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   PUT /venues/{id}
+        ///   {
+        ///    "venueName": "Kore Stadium",
+        ///    "capacity": 101,
+        ///   }
+        /// </remarks> 
+        /// <param name="id"></param>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutVenue(string id, Venue venue)
         {
@@ -74,9 +117,20 @@ namespace netCoreAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Venues
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// Creates a Venue.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   POST /venues
+        ///   {
+        ///    "venueName": "Kore Stadium",
+        ///    "capacity": 100,
+        ///   }
+        /// </remarks> 
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<ActionResult<Venue>> PostVenue(Venue venue)
         {
@@ -100,7 +154,13 @@ namespace netCoreAPI.Controllers
             return CreatedAtAction("GetVenue", new { id = venue.VenueName }, venue);
         }
 
-        // DELETE: api/Venues/5
+        /// <summary>
+        /// Deletes a specific Venue.
+        /// </summary>
+        /// <param name="id"></param>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Venue>> DeleteVenue(string id)
         {
