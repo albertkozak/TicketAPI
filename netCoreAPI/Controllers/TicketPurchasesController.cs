@@ -9,6 +9,7 @@ using netCoreAPI.Models.TicketAPI;
 
 namespace netCoreAPI.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class TicketPurchasesController : ControllerBase
@@ -20,14 +21,46 @@ namespace netCoreAPI.Controllers
             _context = context;
         }
 
-        // GET: api/TicketPurchases
+        /// <summary>
+        /// Gets all Ticket Purchases.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   GET /ticketpurchases
+        ///   {
+        ///    "purchaseId": 1,
+        ///    "paymentMethod": "credit",
+        ///    "paymentAmount": 120.00,
+        ///    "confirmationCode": 001
+        ///   }
+        /// </remarks> 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TicketPurchase>>> GetTicketPurchase()
         {
             return await _context.TicketPurchase.ToListAsync();
         }
 
-        // GET: api/TicketPurchases/5
+        /// <summary>
+        /// Gets specific Ticket Purchase.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   GET /tcketpurchases/{id}
+        ///   {
+        ///    "purchaseId": 1,
+        ///    "paymentMethod": "credit",
+        ///    "paymentAmount": 120.00,
+        ///    "confirmationCode": 001
+        ///   }
+        /// </remarks> 
+        /// <param name="id"></param>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("{id}")]
         public async Task<ActionResult<TicketPurchase>> GetTicketPurchase(int id)
         {
@@ -41,9 +74,24 @@ namespace netCoreAPI.Controllers
             return ticketPurchase;
         }
 
-        // PUT: api/TicketPurchases/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// Updates specific TicketPurchases.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   PUT /ticketpurchases/{id}
+        ///   {
+        ///    "purchaseId": 1,
+        ///    "paymentMethod": "credit",
+        ///    "paymentAmount": 120.00,
+        ///    "confirmationCode": 001
+        ///   }
+        /// </remarks> 
+        /// <param name="id"></param>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTicketPurchase(int id, TicketPurchase ticketPurchase)
         {
@@ -73,9 +121,22 @@ namespace netCoreAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/TicketPurchases
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// Creates a Ticket Purchase.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   POST /ticketpurchases
+        ///   {
+        ///    "purchaseId": 1,
+        ///    "paymentMethod": "credit",
+        ///    "paymentAmount": 120.00,
+        ///    "confirmationCode": 001
+        ///   }
+        /// </remarks> 
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<ActionResult<TicketPurchase>> PostTicketPurchase(TicketPurchase ticketPurchase)
         {
@@ -99,7 +160,14 @@ namespace netCoreAPI.Controllers
             return CreatedAtAction("GetTicketPurchase", new { id = ticketPurchase.PurchaseId }, ticketPurchase);
         }
 
-        // DELETE: api/TicketPurchases/5
+        /// <summary>
+        /// Deletes a specific Ticket Purchase.
+        /// </summary>
+        /// <param name="id"></param>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<TicketPurchase>> DeleteTicketPurchase(int id)
         {

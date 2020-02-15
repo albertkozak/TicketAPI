@@ -9,6 +9,7 @@ using netCoreAPI.Models.TicketAPI;
 
 namespace netCoreAPI.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class RowsController : ControllerBase
@@ -20,14 +21,44 @@ namespace netCoreAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Rows
+        /// <summary>
+        /// Gets all Rows.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   GET /rows
+        ///   {
+        ///   "rowId": 1,
+        ///    "rowName": "R1",
+        ///    "sectionId": 1,
+        ///   }
+        /// </remarks> 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Row>>> GetRow()
         {
             return await _context.Row.ToListAsync();
         }
 
-        // GET: api/Rows/5
+        /// <summary>
+        /// Gets specific row.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   GET /rows/{id}
+        ///   {
+        ///   "rowId": 1,
+        ///    "rowName": "R1",
+        ///    "sectionId": 1,
+        ///   }
+        /// </remarks> 
+        /// <param name="id"></param>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("{id}")]
         public async Task<ActionResult<Row>> GetRow(int id)
         {
@@ -41,9 +72,23 @@ namespace netCoreAPI.Controllers
             return row;
         }
 
-        // PUT: api/Rows/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        ///<summary>
+        /// Updates specific Row.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   PUT /rows/{id}
+        ///   {
+        ///   "rowId": 1,
+        ///    "rowName": "R1",
+        ///    "sectionId": 1,
+        ///   }
+        /// </remarks> 
+        /// <param name="id"></param>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRow(int id, Row row)
         {
@@ -73,9 +118,21 @@ namespace netCoreAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Rows
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// Creates a Row.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///   POST /row
+        ///   {
+        ///   "rowId": 1,
+        ///    "rowName": "R1",
+        ///    "sectionId": 1,
+        ///   }
+        /// </remarks> 
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<ActionResult<Row>> PostRow(Row row)
         {
@@ -85,7 +142,13 @@ namespace netCoreAPI.Controllers
             return CreatedAtAction("GetRow", new { id = row.RowId }, row);
         }
 
-        // DELETE: api/Rows/5
+        /// <summary>
+        /// Deletes a specific Row.
+        /// </summary>
+        /// <param name="id"></param>
+        /// 	[ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Row>> DeleteRow(int id)
         {
